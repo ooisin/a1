@@ -19,12 +19,36 @@ public class Move {
             }
 
             // Player one piece (b or (need to add for king) B)
-            if (App.getPlayer() == 'b') {
+            if (App.getPlayer() == 'b' && !originCell.getPiece().isKing()) {
                 if (!(rowDiff == -1 || rowDiff == -2)) {// changed X and Y
                         return false;
                 }
 
                 if (rowDiff == -2) {
+                    // Check for a piece to jump over
+                    int deltaX = targetCell.getX() - originCell.getX();
+                    int deltaY = targetCell.getY() - originCell.getY();
+
+                    int midCol = originCell.getX() + deltaX / 2;
+                    int midRow = originCell.getY() + deltaY / 2;
+
+                    Cell midCell = App.getBoard()[midRow][midCol];
+                    CheckersPiece midPiece = midCell.getPiece();
+                    if (midPiece == null) { // if there is no piece in the middle you cant move 2 squares
+                        return false; // No piece to jump over
+                    }
+
+                }
+                return true; // Move is valid
+            }
+
+            // king handling
+            if (originCell.getPiece().isKing()) {
+                if (!(Math.abs(rowDiff) == 1 || Math.abs(colDiff) == 2)) {
+                    return false;
+                }
+
+                if (Math.abs(rowDiff) == 2) {
                     // Check for a piece to jump over
                     int deltaX = targetCell.getX() - originCell.getX();
                     int deltaY = targetCell.getY() - originCell.getY();
@@ -102,11 +126,13 @@ public class Move {
             CheckersPiece midPiece = midCell.getPiece();
 
             if (isCaptureMove(originCell, targetCell)) {
+                App.getRemainingPieces().get(midPiece.getColour()).remove(midPiece);
                 midPiece.getPosition().setPiece(null);
             }
 
             targetCell.setPiece(originCell.getPiece());
             originCell.setPiece(null);
+
 
         }
 

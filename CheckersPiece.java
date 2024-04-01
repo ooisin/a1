@@ -70,12 +70,27 @@ public class CheckersPiece {
         app.ellipse(position.getX()*App.CELLSIZE + App.CELLSIZE/2, position.getY()*App.CELLSIZE + App.CELLSIZE/2, App.CELLSIZE*0.8f, App.CELLSIZE*0.8f);
         app.noStroke();
 
-        if (isKing()) {
-            app.fill(255,0,0);
+        if (isKing() && colour == 'w') {
+
+            app.fill(255);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.45f, App.CELLSIZE * 0.45f);
+            app.fill(0);
             app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.3f, App.CELLSIZE * 0.3f);
+            app.fill(255);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.15f, App.CELLSIZE * 0.15f);
+
         }
 
+        if (isKing() && colour == 'b') {
 
+            app.fill(0);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.45f, App.CELLSIZE * 0.45f);
+            app.fill(255);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.3f, App.CELLSIZE * 0.3f);
+            app.fill(0);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.15f, App.CELLSIZE * 0.15f);
+
+        }
 
     }
 }

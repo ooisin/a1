@@ -53,8 +53,12 @@ public class App extends PApplet {
     private static Cell[][] board;
     private CheckersPiece currentSelected;
     private HashSet<Cell> selectedCell;
-    private HashMap<Character, HashSet<CheckersPiece>> piecesInPlay = new HashMap<>();
+    private static HashMap<Character, HashSet<CheckersPiece>> piecesInPlay = new HashMap<>();
     private static char currentPlayer = 'b';
+
+    public static HashMap<Character, HashSet<CheckersPiece>> getRemainingPieces() {
+        return piecesInPlay;
+    }
 
     public static char getPlayer() {
         return currentPlayer;
@@ -150,20 +154,11 @@ public class App extends PApplet {
             if (currentSelected != null && availableMoves.contains(clicked)) {
                 processMove(currentSelected.getPosition(), clicked);
                 promotePiece(clicked);
-                System.out.println(clicked.getPiece().isKing());
                 availableMoves.clear();
                 currentPlayer = (currentPlayer == 'b') ? 'w' : 'b';
             }
         }
 
-        for (Cell cell : availableMoves) {
-            System.out.printf("(%d, %d) ", cell.getX(), cell.getY());
-
-        }
-
-
-		//TODO: Check if piece should be promoted and promote it
-		//TODO: Then it's the other player's turn.
     }
 
     @Override
@@ -203,11 +198,11 @@ public class App extends PApplet {
             // check if game over
             if (piecesInPlay.get('w').isEmpty() || piecesInPlay.get('b').isEmpty()) {
                 fill(255);
-                stroke(0);
-                strokeWeight(5.0f);
+                // stroke(0);
+                // strokeWeight(5.0f);
                 rect(App.WIDTH * 0.19f, App.HEIGHT * 0.33f, App.CELLSIZE * 3.1f, App.CELLSIZE * 0.92f);
                 fill(200, 0, 200);
-                textSize(24.0f * (CELLSIZE / 48.0f));
+                textSize(24.0f);
                 if (piecesInPlay.get('w').isEmpty()) {
                     text("Black Wins!", App.WIDTH * 0.2f, App.HEIGHT * 0.4f);
                 } else if (piecesInPlay.get('b').isEmpty()) {
