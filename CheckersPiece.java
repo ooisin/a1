@@ -18,6 +18,8 @@ public class CheckersPiece {
         return this.king;
     }
 
+    public void setKing(boolean isKing) { this.king = isKing; }
+
     public char getColour() {
         return this.colour;
     }
@@ -64,7 +66,16 @@ public class CheckersPiece {
             app.fill(0);
             app.stroke(255);
         }
+
         app.ellipse(position.getX()*App.CELLSIZE + App.CELLSIZE/2, position.getY()*App.CELLSIZE + App.CELLSIZE/2, App.CELLSIZE*0.8f, App.CELLSIZE*0.8f);
         app.noStroke();
+
+        if (isKing()) {
+            app.fill(255,0,0);
+            app.ellipse(position.getX() * App.CELLSIZE + App.CELLSIZE / 2, position.getY() * App.CELLSIZE + App.CELLSIZE / 2, App.CELLSIZE * 0.3f, App.CELLSIZE * 0.3f);
+        }
+
+
+
     }
 }

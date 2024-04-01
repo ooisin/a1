@@ -17,6 +17,7 @@ import java.util.*;
 
 import static Checkers.CheckersPiece.getAvailableMoves;
 import static Checkers.Move.processMove;
+import static Checkers.Move.promotePiece;
 
 public class App extends PApplet {
     public List<Cell> availableMoves = new ArrayList<>();
@@ -49,7 +50,7 @@ public class App extends PApplet {
     public static final int FPS = 60;
 
     // Data Storage
-    private Cell[][] board;
+    private static Cell[][] board;
     private CheckersPiece currentSelected;
     private HashSet<Cell> selectedCell;
     private HashMap<Character, HashSet<CheckersPiece>> piecesInPlay = new HashMap<>();
@@ -58,6 +59,8 @@ public class App extends PApplet {
     public static char getPlayer() {
         return currentPlayer;
     }
+    public static Cell[][] getBoard() {return board;}
+
 
     public App() {
         
@@ -116,6 +119,7 @@ public class App extends PApplet {
 
     }
 
+
     @Override
     public void mousePressed(MouseEvent e) {
         // availableMoves.clear();
@@ -145,16 +149,19 @@ public class App extends PApplet {
         } else {
             if (currentSelected != null && availableMoves.contains(clicked)) {
                 processMove(currentSelected.getPosition(), clicked);
+                promotePiece(clicked);
+                System.out.println(clicked.getPiece().isKing());
                 availableMoves.clear();
+                currentPlayer = (currentPlayer == 'b') ? 'w' : 'b';
             }
         }
 
         for (Cell cell : availableMoves) {
             System.out.printf("(%d, %d) ", cell.getX(), cell.getY());
+
         }
 
-		//TODO: Check if user clicked on an available move - move the selected piece there. 
-		//TODO: Remove captured pieces from the board
+
 		//TODO: Check if piece should be promoted and promote it
 		//TODO: Then it's the other player's turn.
     }
@@ -175,10 +182,6 @@ public class App extends PApplet {
 		//draw the board
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                // if cell selected highlight green
-
-
-                // TODO: draw highlighted cells
 
                     if (currentSelected != null && board[i][j].getPiece() == currentSelected) {
                         this.setFill(1, (i + j) % 2);
